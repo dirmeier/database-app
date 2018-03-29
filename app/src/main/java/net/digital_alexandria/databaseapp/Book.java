@@ -25,18 +25,17 @@ package net.digital_alexandria.databaseapp;
 /**
  * @author Simon Dirmeier {@literal mail@simon-dirmeier.net}
  */
-public class Book
+class Book
 {
-    private  long mId;
-    private  String mTitle;
-    private  String mPublisher;
-    private  Author[] mAuthors;
+    private long mId;
+    private String mTitle;
+    private String mPublisher;
+    private String mAuthors;
 
-    public Book()
-    {
-    }
+    Book()
+    {}
 
-    public Book(long id, String title, String publisher, Author[] authors)
+    Book(long id, String title, String publisher, String authors)
     {
         setId(id);
         setTitle(title);
@@ -45,17 +44,17 @@ public class Book
     }
 
 
-    public String getTitle()
+    String getTitle()
     {
         return mTitle;
     }
 
-    public String getPublisher()
+    String getPublisher()
     {
         return mPublisher;
     }
 
-    public Author[] getAuthors()
+    String getAuthor()
     {
         return mAuthors;
     }
@@ -75,17 +74,17 @@ public class Book
         mId = id;
     }
 
-    public void setTitle(String title)
+    void setTitle(String title)
     {
         mTitle = title;
     }
 
-    public void setPublisher(String publisher)
+    void setPublisher(String publisher)
     {
         mPublisher = publisher;
     }
 
-    public void setAuthors(Author[] authors)
+    void setAuthors(String authors)
     {
         mAuthors = authors;
     }

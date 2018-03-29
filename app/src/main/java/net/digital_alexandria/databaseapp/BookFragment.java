@@ -73,7 +73,6 @@ public class BookFragment extends Fragment
             public void beforeTextChanged(CharSequence charSequence, int i,
                                           int i1, int i2)
             {
-
             }
 
             @Override
@@ -100,21 +99,18 @@ public class BookFragment extends Fragment
             public void beforeTextChanged(CharSequence charSequence, int i,
                                           int i1, int i2)
             {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence,
                                       int i, int i1, int i2)
             {
-                mBook.setAuthors(new Author[]{
-                  new Author(charSequence.toString(), "")});
+                mBook.setAuthors(charSequence.toString());
             }
 
             @Override
             public void afterTextChanged(Editable editable)
             {
-
             }
         });
     }

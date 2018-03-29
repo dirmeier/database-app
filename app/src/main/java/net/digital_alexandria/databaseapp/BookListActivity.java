@@ -22,12 +22,15 @@
 
 package net.digital_alexandria.databaseapp;
 
-
 import android.support.v4.app.Fragment;
 
-public class MainActivity extends SingleFragmentActivity
+/**
+ * @author Simon Dirmeier {@literal simon.dirmeier@web.de}
+ */
+public class BookListActivity extends SingleFragmentActivity
 {
-    protected  Fragment createFragment()
+    @Override
+    protected Fragment createFragment()
     {
         return new BookListFragment();
     }

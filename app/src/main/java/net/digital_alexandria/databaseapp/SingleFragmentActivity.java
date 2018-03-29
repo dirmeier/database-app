@@ -19,30 +19,36 @@
  * along with database-app.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package net.digital_alexandria.databaseapp;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * @author Simon Dirmeier {@literal simon.dirmeier@web.de}
  */
-class Author
+public abstract class SingleFragmentActivity extends AppCompatActivity
 {
-    private final String mName;
-    private final String mSurName;
+    protected abstract Fragment createFragment();
 
-    public Author(String name, String surName)
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState)
     {
-        mName = name;
-        mSurName = surName;
-    }
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_fragment);
 
-    public String getName()
-    {
-        return mName;
-    }
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
-    public String getSurName()
-    {
-        return mSurName;
+        if (fragment == null)
+        {
+            fragment = createFragment();
+            fm.beginTransaction()
+              .add(R.id.fragment_container, fragment)
+              .commit();
+        }
     }
 }

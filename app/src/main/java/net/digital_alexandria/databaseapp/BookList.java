@@ -23,19 +23,30 @@
 package net.digital_alexandria.databaseapp;
 
 import android.content.Context;
+import android.util.Log;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * @author Simon Dirmeier {@literal simon.dirmeier@web.de}
  */
-public class BookList
+class BookList
 {
-    public static BookList mBookList;
-    private Map<Long, Book> mBooks;
+    private static BookList mBookList;
+    private List<Book> mBooks;
+    private final static String URL_ = "http://simon-dirmeier.net/books/get";
 
-    public static BookList get(Context context)
+    static BookList get(Context context)
     {
         if (mBookList == null)
         {
@@ -46,31 +57,106 @@ public class BookList
 
     private BookList(Context context)
     {
-        mBooks = _get();
+        mBooks = new ArrayList<>();
+        http();
     }
 
-    private static Map<Long, Book> _get()
+
+    public void http()
     {
-        Book b = new Book(0,
-                          "title",
-                          "publisher",
-                          new Author[]{new Author("s", "a")});
-        Map<Long, Book> books = new HashMap<>();
-        books.put(0L, b);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<Book>> callable = new Callable<List<Book>>()
+        {
+            @Override
+            public List<Book> call()
+            {
+                return new HttpRequest().request();
+            }
+        };
+        Future<List<Book>> future = executor.submit(callable);
+        executor.shutdown();
 
-        return books;
+        try
+        {
+            mBooks = future.get();
+        }
+        catch (InterruptedException | ExecutionException e)
+        {
+            Log.e(BookList.class.getSimpleName(), "Error reading books");
+        }
+
     }
 
-    public Map<Long, Book> getBooks()
+    List<Book> getBooks()
     {
         return mBooks;
     }
 
-    public Book getBook(Long id)
+
+    private class HttpRequest
     {
-        if (mBooks.containsKey(id))
-            return mBooks.get(id);
-        return null;
+        List<Book> request()
+        {
+            List<Book> books = new ArrayList<>();
+            try
+            {
+                URL url = new URL(URL_);
+                HttpURLConnection con = (HttpURLConnection) url
+                  .openConnection();
+                con.setRequestMethod("GET");
+                con.setRequestProperty("Content-Type", "application/json");
+
+                BufferedReader in = new BufferedReader(
+                  new InputStreamReader(con.getInputStream()));
+
+                String inputLine;
+                StringBuffer content = new StringBuffer();
+                while ((inputLine = in.readLine()) != null)
+                {
+                    content.append(inputLine);
+                }
+
+                in.close();
+                con.disconnect();
+
+                books = parse(content);
+            }
+            catch (IOException e)
+            {
+                Log.e(BookList.class.getSimpleName(), "Http request failed.");
+            }
+
+
+            return books;
+        }
+
+        private List<Book> parse(StringBuffer content)
+        {
+
+            List<Book> books = new ArrayList<>();
+            try
+            {
+                Object obj = new JSONParser().parse(content.toString());
+                JSONArray jo = (JSONArray) obj;
+
+                for (int i = 0; i < jo.size(); i++)
+                {
+                    JSONArray a = (JSONArray) jo.get(i);
+                    books.add(new Book((long) i,
+                                       String.valueOf(a.get(2)),
+                                       String.valueOf(a.get(3)),
+                                       String.valueOf(a.get(1))
+                    ));
+                }
+            }
+            catch (ParseException e)
+            {
+                Log.e(BookList.class.getSimpleName(), "Cannot parse JSON.");
+            }
+
+
+            return books;
+        }
     }
 
 }
