@@ -22,16 +22,57 @@
 
 package net.digital_alexandria.databaseapp;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 /**
  * @author Simon Dirmeier {@literal simon.dirmeier@web.de}
  */
-public class BookListActivity extends SingleFragmentActivity
+public class BookListActivity extends SingleFragmentActivity implements SearchView.OnQueryTextListener
 {
+    BookListFragment mFragment;
+
     @Override
     protected Fragment createFragment()
     {
-        return new BookListFragment();
+        mFragment = new BookListFragment();
+        return mFragment;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+
+        SearchManager searchManager =
+          (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+          (SearchView) menu.findItem(R.id.search).getActionView();
+
+        searchView.setSearchableInfo(
+          searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText)
+    {
+        mFragment.getAdapter().getFilter().filter(newText);
+        return false;
+    }
+
 }
