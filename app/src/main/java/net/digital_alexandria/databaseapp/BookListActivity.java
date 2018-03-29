@@ -1,5 +1,5 @@
 /**
- * database-app: a Java implementation of various latent variable models.
+ * database-app: a android app for querying my book and CD data bases.
  * <p>
  * Copyright (C) 2018 Simon Dirmeier
  * <p>
@@ -32,7 +32,9 @@ import android.view.MenuInflater;
 /**
  * @author Simon Dirmeier {@literal simon.dirmeier@web.de}
  */
-public class BookListActivity extends SingleFragmentActivity implements SearchView.OnQueryTextListener
+public class BookListActivity
+  extends SingleFragmentActivity
+  implements SearchView.OnQueryTextListener
 {
     BookListFragment mFragment;
 
@@ -44,7 +46,8 @@ public class BookListActivity extends SingleFragmentActivity implements SearchVi
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
 
@@ -57,7 +60,6 @@ public class BookListActivity extends SingleFragmentActivity implements SearchVi
           searchManager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(this);
-
 
         return true;
     }

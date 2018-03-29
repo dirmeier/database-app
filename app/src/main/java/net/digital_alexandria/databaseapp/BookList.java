@@ -1,5 +1,5 @@
 /**
- * database-app: a Java implementation of various latent variable models.
+ * database-app: a android app for querying my book and CD data bases.
  * <p>
  * Copyright (C) 2018 Simon Dirmeier
  * <p>

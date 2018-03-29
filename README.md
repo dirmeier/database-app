@@ -2,6 +2,9 @@
 
 [![Project Status](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
 
+<div align="center" >
+ <img src="https://rawgit.com/dirmeier/database-app/master/_fig/demo_full.jpg" alt="img not found" width="200">
+</div>
 
 A android app for querying my book and CD data bases.
 

@@ -1,5 +1,5 @@
 /**
- * database-app: a Java implementation of various latent variable models.
+ * database-app: a android app for querying my book and CD data bases.
  * <p>
  * Copyright (C) 2018 Simon Dirmeier
  * <p>
@@ -18,19 +18,14 @@
  * You should have received a copy of the GNU General Public License
  * along with database-app.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package net.digital_alexandria.databaseapp;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.MenuInflater;
+
 
 /**
  * @author Simon Dirmeier {@literal simon.dirmeier@web.de}
