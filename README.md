@@ -1,4 +1,4 @@
-<h1 align="center"> database-app </h1>
+# database-app
 
 [![Project Status](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
 
